@@ -1,0 +1,27 @@
+Client:
+
+#Bind Client
+
+import socket
+
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.connect((127.0.0.1, 4444))
+s.send("Hello Word")
+s.close()
+
+Server:
+
+#Bind server
+
+import socket
+
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+HOST = ''
+PORT = 4444
+sock.bind((HOST, BIND))
+sock.listen(1)
+
+conn, addr = sock.accept()
+
+sock.recv(1024)
